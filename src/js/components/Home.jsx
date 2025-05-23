@@ -11,11 +11,30 @@ const Home = () => {
 	useEffect(() => {
 		fetch("https://playground.4geeks.com/todo/users/william")
 			.then((respuesta) => {
+				console.log(respuesta)
+				if(respuesta.status===404){
+					crearUsuario()
+				}
 				return respuesta.json()
 			})
 			.then((data) => { setListaDeTareas(data.todos) })
 			.catch((error) => { console.error(error) })
 	}, [])
+	function crearUsuario(){
+		fetch("https://playground.4geeks.com/todo/users/william", {
+				method: "POST",
+				
+				headers: {
+					"Content-Type": "application/json"
+				}
+			})
+				.then((respuesta) => { return respuesta.json() })
+				.then((data) => {
+					console.log(data)
+
+				})
+				.catch((error) => { console.error(error) })
+	}
 
 	function agregarTarea(evento) {
 		if (evento.key === "Enter" && nuevaTarea.trim() !== "") {
